@@ -56,6 +56,8 @@ namespace ResearchThemAll
             if (unlockable > 0)
                 PopupDialog.SpawnPopupDialog(new MultiOptionDialog("There are " + unlockable + " part to research. Do you want to research them all ?", "Research Them All", HighLogic.Skin,
                     new DialogOption[] { new DialogOption("Research Them All", new Callback(this.OnResearchAllConfirm)), new DialogOption("Cancel", new Callback(this.OnResearchAllCancel)) }), false, HighLogic.Skin);
+            else
+                isRnDOpen = false;
         }
 
 
@@ -66,14 +68,7 @@ namespace ResearchThemAll
             {
                 if (node.IsResearched)
                 {
-                    for (int i = 0; i < node.tech.partsAssigned.Count; i++)
-                    {
-                        AvailablePart item = node.tech.partsAssigned[i];
-                        if (!node.tech.partsPurchased.Contains(item))
-                        {
-                            node.tech.partsPurchased.Add(item);
-                        }
-                    }
+                    node.tech.AutoPurchaseAllParts();
                     node.graphics.SetAvailablePartsCircle(node.PartsNotUnlocked());
                 }
             }
