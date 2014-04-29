@@ -68,7 +68,14 @@ namespace ResearchThemAll
             {
                 if (node.IsResearched)
                 {
-                    node.tech.AutoPurchaseAllParts();
+                    for (int i = 0; i < node.tech.partsAssigned.Count; i++)
+                    {
+                        AvailablePart item = node.tech.partsAssigned[i];
+                        if (!node.tech.partsPurchased.Contains(item))
+                        {
+                           node.tech.PurchasePart(item);
+                        }
+                    }
                     node.graphics.SetAvailablePartsCircle(node.PartsNotUnlocked());
                 }
             }
